@@ -1,106 +1,41 @@
-import { useState, useEffect } from "react";
-import "./App.css";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useAuth } from "./context/AuthContext";
+import Home       from "./pages/Home";
+import CreateQuiz from "./pages/CreateQuiz";
+import JoinQuiz   from "./pages/JoinQuiz";
+import QuizRoom   from "./pages/QuizRoom";
+import Results    from "./pages/Results";
+import Login      from "./pages/Login";
+import ProtectedRoute from "./components/ProtectedRoute";
 
-
-
-function App() {
-
-  const [quote, setQuote] = useState("");
-  const [author, setAuthor] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [likedQuotes, setLikedQuotes] = useState([]);
-
-
-  // Load liked quotes from localStorage
-  useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("likedQuotes")) || [];
-    setLikedQuotes(saved);
-  }, []);
-
-  // Function to fetch the quote from the api 
-  const fetchQuote = async () => {
-    setLoading(true);
-
-    const res = await fetch("https://dummyjson.com/quotes/random");
-    const data = await res.json();
-
-    setQuote(data.quote);
-    setAuthor(data.author);
-
-    setLoading(false);
-  };
-
-  //when the component loads we fetch the 'fetchQuote' function created above 
-  useEffect(() => {
-    fetchQuote();
-  }, []);
-
-
-
-  // This is gonnna save the quotes which the user liked to the local storage so that he/she can view them again 
-  useEffect(() => {
-    localStorage.setItem("likedQuotes", JSON.stringify(likedQuotes));
-  }, [likedQuotes]);
-
-
-
-  // This function runs when the user clicks on the like button and the button toggles 
-  const likeQuote = () => {
-    const newQuote = { quote, author };
-
-    const exists = likedQuotes.find(q => q.quote === quote);
-
-    if (exists) {
-      setLikedQuotes(likedQuotes.filter(q => q.quote !== quote));
-    } else {
-      setLikedQuotes([...likedQuotes, newQuote]);
-    }
-  };
-
-
-
+export default function App() {
+  const { user } = useAuth();
 
   return (
-    <div className="container">
+    <BrowserRouter>
+      <Routes>
+        {/* Public */}
+        <Route path="/"           element={<Home />} />
+        <Route path="/join"       element={<JoinQuiz />} />
+        <Route path="/room/:id"   element={<QuizRoom />} />
+        <Route path="/results/:id" element={<Results />} />
 
-      <h1>Daily Motivation</h1>
+        {/* Redirect to /create if already logged in */}
+        <Route path="/login" element={user ? <Navigate to="/create" replace /> : <Login />} />
 
-      {loading ? (
-        <p>Loading quote...</p>
-      ) : (
-        <div className="quoteBox">
-          <p>"{quote}"</p>
-          <p>- {author}</p>
-        </div>
-      )}
+        {/* Protected */}
+        <Route
+          path="/create"
+          element={
+            <ProtectedRoute>
+              <CreateQuiz />
+            </ProtectedRoute>
+          }
+        />
 
-
-
-      <button onClick={fetchQuote} disabled={loading}>
-        New Quote
-      </button>
-
-      <button onClick={likeQuote}>
-        Like ❤️
-      </button>
-
-      <p>Total Likes: {likedQuotes.length}</p>
-
-      {likedQuotes.length > 0 && (
-        <div className="liked">
-          <h3>Liked Quotes</h3>
-
-          {likedQuotes.map((q, i) => (
-            <div key={i}>
-              <p>"{q.quote}"</p>
-              <small>- {q.author}</small>
-            </div>
-          ))}
-        </div>
-      )}
-
-    </div>
+        {/* Catch-all */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
-
-export default App;
