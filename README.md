@@ -1,61 +1,32 @@
-🌟 Daily Motivation Dashboard
-A modern, minimalist web application designed to provide users with daily inspiration and positive affirmations. This dashboard helps users cultivate a growth mindset through curated content delivered in a distraction-free environment.
+📝 React Project 2
+A real-time, interactive quiz application built with React and Firebase. This project allows users to create, manage, and participate in live quizzes with instant data synchronization—similar to Mentimeter.
 
-🔗 Live Demo: Daily Motivation Dashboard
-
-📖 Problem Statement
-In today's fast-paced digital environment, maintaining mental clarity and consistent motivation is a challenge. Constant notifications and information overload can lead to burnout. Daily Motivation solves this by offering a dedicated space for inspiration—stripping away the noise to help users refocus on their personal and professional goals.
+🚀 Live Demo
+Check out the project here: https://react-project-2-chi-silk.vercel.app/
 
 ✨ Key Features
-Dynamic Quote Engine: Fetches or generates unique motivational quotes to keep the experience fresh.
+Live Quiz Creation: Easily build custom quizzes with multiple-choice questions.
 
-Minimalist Aesthetic: Focused UI design to reduce cognitive load and prioritize the message.
+Real-time Interaction: Using Firebase's real-time capabilities, responses are updated instantly as users participate.
 
-Fully Responsive: Optimized with modern CSS for a seamless experience across mobile, tablet, and desktop devices.
+Leaderboard Logic: Automated scoring and ranking based on user input.
 
-Vite-Powered Performance: Extremely fast load times and smooth transitions using the Vite build tool.
+Host Dashboard: A dedicated interface for creators to manage their active quizzes.
+
+Responsive UI: Fully optimized for mobile devices so participants can join from anywhere.
 
 🛠️ Tech Stack
-Library: React.js
+Frontend: React.js
 
-Build Tool: Vite
+Styling: Tailwind CSS (or CSS Modules)
 
-Styling: CSS3 (Custom Modules/Variables)
+Backend/Database: Firebase (Firestore & Authentication)
 
 Deployment: Vercel
 
-🚀 Getting Started
-To get a local copy up and running, follow these simple steps:
+⚙️ How it Works
+Authentication: Users sign in to save their created quizzes.
 
-Prerequisites
-Node.js (v16.0 or higher)
+Database: All quiz data and responses are stored in Cloud Firestore.
 
-npm or yarn
-
-Installation
-Clone the repo
-
-Bash
-
-git clone https://github.com/your-username/REACT-Daily-Motivation-Dashboard.git
-Install NPM packages
-
-Bash
-
-npm install
-Start the development server
-
-Bash
-
-npm run dev
-📂 Project Structure
-Plaintext
-
-├── src/
-│   ├── assets/     # Images and media files
-│   ├── components/ # Functional React components
-│   ├── App.jsx     # Main application logic
-│   └── main.jsx    # Entry point (Vite)
-├── index.html      # HTML Template
-└── package.json    # Project dependencies and scripts
-Developed by Vaibhavi Singh | GitHub | LinkedIn
+Real-time Listeners: The app uses onSnapshot (or similar Firebase hooks) to ensure that when a user submits an answer, the results update on the host's screen without a page refresh.
